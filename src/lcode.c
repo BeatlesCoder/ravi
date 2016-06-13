@@ -308,6 +308,9 @@ void luaK_reserveregs (FuncState *fs, int n) {
 static void freereg (FuncState *fs, int reg) {
   if (!ISK(reg) && reg >= fs->nactvar) {
     fs->freereg--;
+    if (reg != fs->freereg) {
+      luaG_runerror(fs->ls->L, "Expected %d found %d\n", fs->freereg, reg);
+    }
     lua_assert(reg == fs->freereg);
   }
 }
